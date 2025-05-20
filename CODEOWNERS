@@ -1,0 +1,6 @@
+# The CODEOWNERS file shows who is responsible for certain parts of the repository.
+
+# Recommended reading:
+#     https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+
+* josh.brunton@binary.ax
