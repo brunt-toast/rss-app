@@ -14,9 +14,7 @@ public class FeedSubscriptionEditViewModelTests
     [TestMethod]
     public async Task Entity_ShouldBeChanged_AfterEdit()
     {
-        var serviceBuilder = new ServiceCollection();
-        serviceBuilder.AddSingleton<IFeedSubscriptionContextProvider, MockFeedSubscriptionContextProvider>();
-        IServiceProvider services = serviceBuilder.BuildServiceProvider();
+        IServiceProvider services = new MockServiceProvider();
 
         const string testFeedName = "Test feed";
         const string testFeedUri = "https://example.com/feed.xml";

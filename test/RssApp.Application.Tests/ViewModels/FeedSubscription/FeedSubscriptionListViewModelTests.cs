@@ -12,9 +12,7 @@ public class FeedSubscriptionListViewModelTests
     [TestMethod]
     public async Task List_ShouldContainModel_WhenCreatedProgrammatically()
     {
-        var serviceBuilder = new ServiceCollection();
-        serviceBuilder.AddSingleton<IFeedSubscriptionContextProvider, MockFeedSubscriptionContextProvider>();
-        IServiceProvider services = serviceBuilder.BuildServiceProvider();
+        IServiceProvider services = new MockServiceProvider();
 
         const string testFeedName = "Test feed";
         const string testFeedUri = "https://example.com/feed.xml";
@@ -32,9 +30,7 @@ public class FeedSubscriptionListViewModelTests
     [TestMethod]
     public async Task List_ShouldContainModel_WhenCreatedByViewModel()
     {
-        var serviceBuilder = new ServiceCollection();
-        serviceBuilder.AddSingleton<IFeedSubscriptionContextProvider, MockFeedSubscriptionContextProvider>();
-        IServiceProvider services = serviceBuilder.BuildServiceProvider();
+        IServiceProvider services = new MockServiceProvider();
         const string testFeedName = "Test feed";
         const string testFeedUri = "https://example.com/feed.xml";
 

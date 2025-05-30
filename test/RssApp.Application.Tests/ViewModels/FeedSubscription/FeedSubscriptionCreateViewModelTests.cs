@@ -12,9 +12,7 @@ public class FeedSubscriptionCreateViewModelTests
     [TestMethod]
     public void FeedSubscription_ShouldExist_WhenCreated()
     {
-        var serviceBuilder = new ServiceCollection();
-        serviceBuilder.AddSingleton<IFeedSubscriptionContextProvider, MockFeedSubscriptionContextProvider>();
-        IServiceProvider services = serviceBuilder.BuildServiceProvider();
+        IServiceProvider services = new MockServiceProvider();
         const string testFeedName = "Test feed";
         const string testFeedUri = "https://example.com/feed.xml";
         FeedSubscriptionCreateViewModel viewModel = new(services) { FeedName = testFeedName, FeedUri = testFeedUri };
