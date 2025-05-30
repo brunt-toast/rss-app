@@ -1,6 +1,8 @@
-﻿using EntityFramework.Exceptions.Sqlite;
+﻿using System.Security.Cryptography.X509Certificates;
+using EntityFramework.Exceptions.Sqlite;
 using Microsoft.Extensions.Logging;
 using RssApp.Core;
+using RssApp.Core.Junctions;
 
 namespace RssApp.DataAccess.Context;
 
@@ -24,6 +26,10 @@ public class FeedSubscriptionsContext : DbContext, IFeedSubscriptionsContext
 
     public virtual DbSet<FeedSubscription> FeedSubscriptions { get; set; }
 
+    public DbSet<FeedFilter> FeedFilters { get; set; }
+
+    public DbSet<FeedSubscriptionFeedFilter> FeedSubscriptionFeedFilters { get; set; }
+
     public Task SaveChangesAsync() => base.SaveChangesAsync();
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -40,5 +46,8 @@ public class FeedSubscriptionsContext : DbContext, IFeedSubscriptionsContext
 
         modelBuilder.Entity<FeedSubscription>()
             .HasKey(x => x.FeedSubscriptionId);
+
+        modelBuilder.Entity<FeedSubscriptionFeedFilter>()
+            .HasKey(x => new { x.FeedFilterId, x.FeedSubscriptionId });
     }
 }
