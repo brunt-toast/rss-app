@@ -1,19 +1,31 @@
-# PROJECTNAME/REPOSITORYNAME 
+# brunt-toast/rss-app 
 
-Opening remarks about the repository. 
-
-## Table of Contents 
-<!--toc:start-->
-- [PROJECTNAME/REPOSITORYNAME](#projectnamerepositoryname)
-  - [Table of Contents](#table-of-contents)
-  - [Prerequisites](#prerequisites)
-  - [Usage](#usage)
-<!--toc:end-->
+An RSS reader for Windows.
 
 ## Prerequisites
 
-Remarks on any requirements for this project, and how to install or configure them. Examples include .NET runtimes and NuGet sources. 
+This project requires .NET 9. 
 
 ## Usage 
 
-Remarks on how to run the software, such as which item to set as the startup project. 
+This software is not yet in a usable state.
+
+## Citation 
+
+See [CITATION.yml](./CITATION.yml)
+
+## Code of Conduct
+
+See [CODE_OF_CONDUCT.md](./CODE_OF_CONDUCT.md)
+
+## Contributing
+
+See [CONTRIBUTING.md](./CONTRIBUTING.md)
+
+## License 
+
+See [LICENSE.md](./LICENSE.md)
+
+## Security 
+
+See [SECURITY.md](./SECURITY.md)
