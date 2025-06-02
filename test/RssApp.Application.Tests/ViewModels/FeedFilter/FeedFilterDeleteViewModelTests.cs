@@ -55,4 +55,47 @@ public class FeedFilterDeleteViewModelTests
             Assert.IsFalse(exists);
         }
     }
+
+    [TestMethod]
+    public async Task Entity_ShouldNotDelete_WhenConfirmationCancelled()
+    {
+        IServiceProvider services = new MockServiceProvider();
+        services.GetRequiredService<IDialogService>().ConfirmationRequested += (_, e) =>
+        {
+            e.SetConfirmed(false);
+        };
+
+        var feedFilter = new Core.FeedFilter
+        {
+            FeedFilterId = Guid.NewGuid(),
+            AppliesTo = FeedFilterAppliesToFlags.Title,
+            FilterRegex = "^(AI)",
+            IsWhitelist = false
+        };
+
+        await using (var ctx = services.GetRequiredService<IFeedSubscriptionContextProvider>().New())
+        {
+            await ctx.FeedFilters.AddAsync(feedFilter);
+            await ctx.SaveChangesAsync();
+        }
+
+        await using (var ctx = services.GetRequiredService<IFeedSubscriptionContextProvider>().New())
+        {
+            bool exists = await ctx.FeedFilters.AnyAsync(x => x.FeedFilterId == feedFilter.FeedFilterId);
+            Assert.IsTrue(exists);
+        }
+
+        var deleteViewModel = new FeedFilterDeleteViewModel(services);
+        deleteViewModel.Init(new FeedFilterModel(feedFilter));
+
+        var deleteAsyncCommand = deleteViewModel.DeleteCommand as IAsyncRelayCommand;
+        ArgumentNullException.ThrowIfNull(deleteAsyncCommand, $"{nameof(deleteViewModel.DeleteCommand)} was not of type {nameof(IAsyncRelayCommand)}");
+        await deleteAsyncCommand.ExecuteAsync(null);
+
+        await using (var ctx = services.GetRequiredService<IFeedSubscriptionContextProvider>().New())
+        {
+            bool exists = await ctx.FeedFilters.AnyAsync(x => x.FeedFilterId == feedFilter.FeedFilterId);
+            Assert.IsTrue(exists);
+        }
+    }
 }
