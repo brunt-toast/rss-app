@@ -5,12 +5,14 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using RssApp.Application.Models.FeedFilter;
 using RssApp.Application.Services.ContextProviders.FeedSubscriptions;
+using RssApp.Application.Services.Dialogs;
 using RssApp.Core.Junctions;
 
 namespace RssApp.Application.ViewModels.FeedFilter;
 
 public partial class FeedFilterDeleteViewModel : ObservableObject
 {
+    private readonly IDialogService _dialogService;
     private readonly IFeedSubscriptionContextProvider _dbContextProvider;
     private Guid _feedFilterId;
 
@@ -19,8 +21,9 @@ public partial class FeedFilterDeleteViewModel : ObservableObject
     public FeedFilterDeleteViewModel(IServiceProvider services)
     {
         _dbContextProvider = services.GetRequiredService<IFeedSubscriptionContextProvider>();
+        _dialogService = services.GetRequiredService<IDialogService>();
 
-        DeleteCommand = new RelayCommand(Delete);
+        DeleteCommand = new AsyncRelayCommand(Delete);
     }
 
     public void Init(FeedFilterModel feedFilterModel)
@@ -28,8 +31,13 @@ public partial class FeedFilterDeleteViewModel : ObservableObject
         _feedFilterId = feedFilterModel.ToPoco().FeedFilterId;
     }
 
-    private async void Delete()
+    private async Task Delete()
     {
+        if (!await _dialogService.RequestConfirmationAsync("Delete filter?", "Are you sure you want to delete this filter?"))
+        {
+            return;
+        }
+
         await using var ctx = _dbContextProvider.New();
 
         Core.FeedFilter? stagedFilter = await ctx.FeedFilters.SingleOrDefaultAsync(x => x.FeedFilterId == _feedFilterId);

@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using RssApp.Application.Services.ContextProviders.FeedSubscriptions;
+using RssApp.Application.Services.Dialogs;
 
 namespace RssApp.Application.Tests.Mock;
 
@@ -17,6 +18,7 @@ internal class MockServiceProvider : IServiceProvider
         ServiceCollection builder = new();
 
         builder.AddSingleton<IFeedSubscriptionContextProvider, MockFeedSubscriptionContextProvider>();
+        builder.AddSingleton<IDialogService, MockDialogService>();
 
         _services = builder.BuildServiceProvider();
     }
