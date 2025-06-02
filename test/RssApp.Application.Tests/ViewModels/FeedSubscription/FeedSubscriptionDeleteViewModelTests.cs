@@ -1,8 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using CommunityToolkit.Mvvm.Input;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using RssApp.Application.Extensions.System.Windows.Input;
 using RssApp.Application.Models.FeedSubscription;
 using RssApp.Application.Services.ContextProviders.FeedSubscriptions;
+using RssApp.Application.Services.Dialogs;
 using RssApp.Application.Tests.Mock;
 using RssApp.Application.ViewModels.FeedSubscription;
 
@@ -15,6 +17,10 @@ public class FeedSubscriptionDeleteViewModelTests
     public async Task Entity_ShouldNotExist_AfterDelete()
     {
         IServiceProvider services = new MockServiceProvider();
+        services.GetRequiredService<IDialogService>().ConfirmationRequested += (_, e) =>
+        {
+            e.SetConfirmed(true);
+        };
 
         const string testFeedName = "Test feed";
         const string testFeedUri = "https://example.com/feed.xml";
@@ -33,7 +39,10 @@ public class FeedSubscriptionDeleteViewModelTests
 
         var deleteViewModel = new FeedSubscriptionDeleteViewModel(services);
         deleteViewModel.Init(new FeedSubscriptionModel(feedSubscription));
-        deleteViewModel.DeleteCommand.Execute();
+
+        var deleteAsyncCommand = deleteViewModel.DeleteCommand as IAsyncRelayCommand;
+        ArgumentNullException.ThrowIfNull(deleteAsyncCommand, $"{nameof(deleteViewModel.DeleteCommand)} was not of type {nameof(IAsyncRelayCommand)}");
+        await deleteAsyncCommand.ExecuteAsync(null);
 
         await using (var ctx = services.GetRequiredService<IFeedSubscriptionContextProvider>().New())
         {
