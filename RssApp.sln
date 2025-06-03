@@ -15,6 +15,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{02EA681E
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RssApp.Application.Tests", "test\RssApp.Application.Tests\RssApp.Application.Tests.csproj", "{CF060CE7-B765-4DCF-A97E-B8A7264C0291}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RssApp.Native.Windows", "src\RssApp.Native.Windows\RssApp.Native.Windows.csproj", "{1A12D282-7D58-4BA4-B70C-9929CBCDA801}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -37,6 +39,12 @@ Global
 		{CF060CE7-B765-4DCF-A97E-B8A7264C0291}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CF060CE7-B765-4DCF-A97E-B8A7264C0291}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CF060CE7-B765-4DCF-A97E-B8A7264C0291}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1A12D282-7D58-4BA4-B70C-9929CBCDA801}.Debug|Any CPU.ActiveCfg = Debug|x64
+		{1A12D282-7D58-4BA4-B70C-9929CBCDA801}.Debug|Any CPU.Build.0 = Debug|x64
+		{1A12D282-7D58-4BA4-B70C-9929CBCDA801}.Debug|Any CPU.Deploy.0 = Debug|x64
+		{1A12D282-7D58-4BA4-B70C-9929CBCDA801}.Release|Any CPU.ActiveCfg = Release|x64
+		{1A12D282-7D58-4BA4-B70C-9929CBCDA801}.Release|Any CPU.Build.0 = Release|x64
+		{1A12D282-7D58-4BA4-B70C-9929CBCDA801}.Release|Any CPU.Deploy.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
