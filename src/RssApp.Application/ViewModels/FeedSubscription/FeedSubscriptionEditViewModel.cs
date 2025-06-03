@@ -1,8 +1,10 @@
 ﻿using System.Windows.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using RssApp.Application.Messages.FeedSubscription;
 using RssApp.Application.Models.FeedSubscription;
 using RssApp.Application.Services.ContextProviders.FeedSubscriptions;
 
@@ -57,5 +59,6 @@ public partial class FeedSubscriptionEditViewModel : ObservableObject
         record.FeedUri = FeedUri;
 
         await ctx.SaveChangesAsync();
+        WeakReferenceMessenger.Default.Send(new FeedSubscriptionsChangedMessage());
     }
 }
