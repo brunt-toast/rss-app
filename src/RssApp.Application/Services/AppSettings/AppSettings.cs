@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using System.Runtime.CompilerServices;
+using System.Security.Principal;
 using System.Text.Json.Serialization;
 using Newtonsoft.Json;
 
@@ -10,8 +11,6 @@ public class AppSettings : IAppSettings
     private const string ConfigPath = "config.json";
 
     private Dictionary<string, object> _values = [];
-
-    public string? SqlConnectionString => GetValue<string>();
 
     public async Task InitAsync()
     {
