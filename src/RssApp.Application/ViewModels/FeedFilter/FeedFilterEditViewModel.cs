@@ -18,7 +18,7 @@ public partial class FeedFilterEditViewModel : ObservableObject
 {
     private readonly IFeedSubscriptionContextProvider _dbContextProvider;
 
-    public FeedFilterModel Model { get; private set; }
+    public FeedFilterModel Model { get; private set; } = null!;
 
     public ICommand SaveCommand { get; }
 
