@@ -17,4 +17,8 @@
     <ProjectReference Include="..\RssApp.Core\RssApp.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Interface\" />
+  </ItemGroup>
+
 </Project>
