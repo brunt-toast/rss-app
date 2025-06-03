@@ -5,15 +5,17 @@ namespace RssApp.Application.Services.ContextProviders.FeedSubscriptions;
 
 public class FeedSubscriptionContextProvider : IFeedSubscriptionContextProvider
 {
-    private readonly IAppSettings _appSettings;
+    private readonly string _connectionString;
 
-    public FeedSubscriptionContextProvider(IAppSettings appSettings)
+    public FeedSubscriptionContextProvider(string connectionString)
     {
-        _appSettings = appSettings;
+        _connectionString = connectionString;
     }
 
     public IFeedSubscriptionsContext New()
     {
-        return new FeedSubscriptionsContext(_appSettings.SqlConnectionString);
+        var ret = new FeedSubscriptionsContext(_connectionString);
+        ret.Database.EnsureCreated();
+        return ret;
     }
 }

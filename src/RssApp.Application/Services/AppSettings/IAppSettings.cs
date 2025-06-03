@@ -1,8 +1,6 @@
-﻿using RssApp.DataAccess.Interface;
+﻿namespace RssApp.Application.Services.AppSettings;
 
-namespace RssApp.Application.Services.AppSettings;
-
-public interface IAppSettings : IHasSqlConnectionString
+public interface IAppSettings 
 {
     
 }

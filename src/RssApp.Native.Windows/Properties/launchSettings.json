@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "RssApp.Native.Windows (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "RssApp.Native.Windows (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}

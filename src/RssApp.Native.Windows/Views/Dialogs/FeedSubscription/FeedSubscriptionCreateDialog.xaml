@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ContentDialog
+    x:Class="RssApp.Native.Windows.Views.Dialogs.FeedSubscription.FeedSubscriptionCreateDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:RssApp.Native.Windows.Views.Dialogs.FeedSubscription"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    
+    Title="Create subscription"
+    PrimaryButtonText="Save"
+    PrimaryButtonCommand="{x:Bind ViewModel.SaveCommand}"
+    SecondaryButtonText="Cancel">
+
+    <Grid RowDefinitions="auto,auto">
+        <TextBox Grid.Row="0" Header="Name" Text="{x:Bind ViewModel.FeedName, Mode=TwoWay}" PlaceholderText="Xkcd" />
+        <TextBox Grid.Row="1" Header="Uri" Text="{x:Bind ViewModel.FeedUri, Mode=TwoWay}" PlaceholderText="https://xkcd.com/rss.xml" />
+    </Grid>
+</ContentDialog>
