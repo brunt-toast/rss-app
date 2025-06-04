@@ -1,6 +1,6 @@
 # brunt-toast/rss-app 
 
-An RSS reader for Windows.
+An RSS feed enumerator for Windows.
 
 ## Prerequisites
 
@@ -8,7 +8,10 @@ This project requires .NET 9.
 
 ## Usage 
 
-This software is not yet in a usable state.
+Compile and run [src/RssApp.Native.Windows/RssApp.Native.Windows.csproj](./src/RssApp.Native.Windows/RssApp.Native.Windows.csproj): 
+```bash
+dotnet run src/RssApp.Native.Windows/RssApp.Native.Windows.csproj
+```
 
 ## Citation 
 
