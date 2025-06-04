@@ -13,8 +13,11 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
   <ItemGroup>
+    <None Remove="Controls\FeedFilter\FeedFilterListControl.xaml" />
     <None Remove="Controls\FeedSubscription\FeedSubscriptionListControl.xaml" />
     <None Remove="Controls\Feed\FeedControl.xaml" />
+    <None Remove="Views\Dialogs\FeedFilter\FeedFilterCreateDialog.xaml" />
+    <None Remove="Views\Dialogs\FeedFilter\FeedFilterDeleteDialog.xaml" />
     <None Remove="Views\Dialogs\FeedSubscription\FeedSubscriptionCreateDialog.xaml" />
     <None Remove="Views\Pages\HomePage.xaml" />
   </ItemGroup>
@@ -49,6 +52,11 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\RssApp.Application\RssApp.Application.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Views\Dialogs\FeedFilter\FeedFilterDeleteDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="Controls\FeedSubscription\FeedSubscriptionListControl.xaml">
@@ -90,6 +98,16 @@
   </ItemGroup>
   <ItemGroup>
     <Page Update="Controls\Feed\FeedControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\FeedFilter\FeedFilterListControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Views\Dialogs\FeedFilter\FeedFilterCreateDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>

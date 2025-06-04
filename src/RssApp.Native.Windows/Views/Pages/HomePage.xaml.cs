@@ -21,10 +21,12 @@ using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.DependencyInjection;
 using RssApp.Application.Messages.Feed;
+using RssApp.Application.Messages.FeedFilter;
 using RssApp.Application.Messages.FeedSubscription;
 using RssApp.Application.Services.Dialogs;
 using RssApp.Application.ViewModels.FeedSubscription;
 using RssApp.Native.Windows.Controls.Feed;
+using RssApp.Native.Windows.Views.Dialogs.FeedFilter;
 using RssApp.Native.Windows.Views.Dialogs.FeedSubscription;
 
 // To learn more about WinUI, the WinUI project structure,
@@ -37,6 +39,7 @@ namespace RssApp.Native.Windows.Views.Pages;
 public sealed partial class HomePage : Page, INotifyPropertyChanged
 {
     public ICommand CreateNewSubscriptionCommand { get; }
+    public ICommand CreateNewFilterCommand { get; }
 
     private FeedControl _feedControl = new();
     public FeedControl FeedControl
@@ -48,6 +51,7 @@ public sealed partial class HomePage : Page, INotifyPropertyChanged
     public HomePage()
     {
         CreateNewSubscriptionCommand = new AsyncRelayCommand(CreateNewSubscription);
+        CreateNewFilterCommand = new AsyncRelayCommand(CreateNewFilter);
 
         this.InitializeComponent();
 
@@ -55,6 +59,15 @@ public sealed partial class HomePage : Page, INotifyPropertyChanged
         WeakReferenceMessenger.Default.Register<FeedSubscriptionEditRequestMessage>(this, OnFeedSubscriptionEditRequestMessage);
         WeakReferenceMessenger.Default.Register<FeedSubscriptionDeleteRequestMessage>(this, OnFeedSubscriptionDeleteRequestMessage);
         WeakReferenceMessenger.Default.Register<FeedSelectedMessage>(this, OnFeedSelectedMessage);
+        WeakReferenceMessenger.Default.Register<FeedFilterDeleteRequestMessage>(this, OnFeedFilterDeleteRequestMessage);
+
+    }
+
+    private async void OnFeedFilterDeleteRequestMessage(object recipient, FeedFilterDeleteRequestMessage message)
+    {
+        var dialog = new FeedFilterDeleteDialog(XamlRoot);
+        dialog.ViewModel.Init(message.Model);
+        await dialog.ShowAsync();
     }
 
     private async void OnShowErrorRequested(object? sender, ShowErrorRequestedEventArgs e)
@@ -66,6 +79,7 @@ public sealed partial class HomePage : Page, INotifyPropertyChanged
     private async void OnFeedSelectedMessage(object recipient, FeedSelectedMessage message)
     {
         FeedControl = new FeedControl();
+        FeedControlContainer.Content = FeedControl;
 
         if (message.Model is null)
         {
@@ -92,6 +106,11 @@ public sealed partial class HomePage : Page, INotifyPropertyChanged
     private async Task CreateNewSubscription()
     {
         await new FeedSubscriptionCreateDialog(XamlRoot).ShowAsync();
+    }
+
+    private async Task CreateNewFilter()
+    {
+        await new FeedFilterCreateDialog(XamlRoot).ShowAsync();
     }
 
     public event PropertyChangedEventHandler? PropertyChanged;

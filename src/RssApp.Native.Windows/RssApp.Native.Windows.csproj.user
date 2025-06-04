@@ -5,6 +5,15 @@
     <None Update="App.xaml">
       <SubType>Designer</SubType>
     </None>
+    <Page Update="Views\Dialogs\FeedFilter\FeedFilterDeleteDialog.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\Dialogs\FeedFilter\FeedFilterCreateDialog.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\FeedFilter\FeedFilterListControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Controls\Feed\FeedControl.xaml">
       <SubType>Designer</SubType>
     </Page>
