@@ -18,6 +18,8 @@ public partial class FeedViewModel : ObservableObject
     private readonly IDialogService _dialogService;
     private readonly IFeedSubscriptionContextProvider _dbContextProvider;
 
+    [ObservableProperty] public partial string FeedName { get; private set; }
+
     public FeedViewModel(IServiceProvider services)
     {
         _dialogService = services.GetRequiredService<IDialogService>();
@@ -28,6 +30,8 @@ public partial class FeedViewModel : ObservableObject
 
     public async Task InitAsync(FeedSubscriptionModel model)
     {
+        FeedName = model.FeedName;
+
         CodeHollow.FeedReader.Feed feed;
 
         int retries = 0;
