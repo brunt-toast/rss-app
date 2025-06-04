@@ -1,8 +1,10 @@
 ﻿using System.Windows.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using RssApp.Application.Messages.FeedFilter;
 using RssApp.Application.Models.FeedFilter;
 using RssApp.Application.Services.ContextProviders.FeedSubscriptions;
 using RssApp.Application.Services.Dialogs;
@@ -33,11 +35,6 @@ public partial class FeedFilterDeleteViewModel : ObservableObject
 
     private async Task Delete()
     {
-        if (!await _dialogService.RequestConfirmationAsync("Delete filter?", "Are you sure you want to delete this filter?"))
-        {
-            return;
-        }
-
         await using var ctx = _dbContextProvider.New();
 
         Core.FeedFilter? stagedFilter = await ctx.FeedFilters.SingleOrDefaultAsync(x => x.FeedFilterId == _feedFilterId);
@@ -51,5 +48,6 @@ public partial class FeedFilterDeleteViewModel : ObservableObject
         ctx.FeedSubscriptionFeedFilters.RemoveRange(stagedJunctions);
 
         await ctx.SaveChangesAsync();
+        WeakReferenceMessenger.Default.Send(new FeedFiltersChangedMessage());
     }
 }

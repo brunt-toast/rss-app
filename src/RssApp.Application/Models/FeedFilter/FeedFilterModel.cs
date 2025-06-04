@@ -1,4 +1,9 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using System.Windows.Input;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
+using RssApp.Application.Messages.FeedFilter;
+using RssApp.Application.Messages.FeedSubscription;
 using RssApp.Core.Enums.Flags;
 
 namespace RssApp.Application.Models.FeedFilter;
@@ -55,9 +60,17 @@ public partial class FeedFilterModel : ObservableObject
         }
     }
 
+    public ICommand RequestDeleteCommand { get; }
+
     public FeedFilterModel(Core.FeedFilter poco)
     {
         _poco = poco;
+        RequestDeleteCommand = new RelayCommand(RequestDelete);
+    }
+
+    private void RequestDelete()
+    {
+        WeakReferenceMessenger.Default.Send(new FeedFilterDeleteRequestMessage(this));
     }
 
     public Core.FeedFilter ToPoco() => _poco;

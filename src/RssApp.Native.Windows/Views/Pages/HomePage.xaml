@@ -8,16 +8,24 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:feedSubscription="using:RssApp.Native.Windows.Controls.FeedSubscription"
     xmlns:feed="using:RssApp.Native.Windows.Controls.Feed"
+    xmlns:feedFilter="using:RssApp.Native.Windows.Controls.FeedFilter"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-    <Grid ColumnDefinitions="auto,*">
-        <StackPanel Grid.Column="0">
+    <Grid  RowDefinitions="auto,auto" ColumnDefinitions="auto,*">
+        <StackPanel Grid.Row="0" Grid.Column="0">
             <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}" Text="Subscriptions" />
             <feedSubscription:FeedSubscriptionListControl />
             <Button Content="New" Command="{x:Bind CreateNewSubscriptionCommand}" />
         </StackPanel>
 
-        <ContentControl Grid.Column="1" x:Name="FeedControlContainer" Content="{x:Bind FeedControl, Mode=OneWay}" />
+        <StackPanel Grid.Row="1" Grid.Column="0">
+            <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}" Text="Filters" />
+            <feedFilter:FeedFilterListControl />
+            <Button Content="New" Command="{x:Bind CreateNewFilterCommand}" />
+        </StackPanel>
+
+        <ContentControl Grid.Row="0" Grid.RowSpan="2"
+                        Grid.Column="1" x:Name="FeedControlContainer" Content="{x:Bind FeedControl, Mode=OneWay}" />
     </Grid>
 </Page>
