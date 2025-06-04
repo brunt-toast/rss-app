@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -14,10 +16,15 @@ using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
+using Microsoft.Extensions.DependencyInjection;
+using RssApp.Application.Messages.Feed;
 using RssApp.Application.Messages.FeedSubscription;
+using RssApp.Application.Services.Dialogs;
 using RssApp.Application.ViewModels.FeedSubscription;
+using RssApp.Native.Windows.Controls.Feed;
 using RssApp.Native.Windows.Views.Dialogs.FeedSubscription;
 
 // To learn more about WinUI, the WinUI project structure,
@@ -27,9 +34,16 @@ namespace RssApp.Native.Windows.Views.Pages;
 /// <summary>
 /// An empty page that can be used on its own or navigated to within a Frame.
 /// </summary>
-public sealed partial class HomePage : Page
+public sealed partial class HomePage : Page, INotifyPropertyChanged
 {
     public ICommand CreateNewSubscriptionCommand { get; }
+
+    private FeedControl _feedControl = new();
+    public FeedControl FeedControl
+    {
+        get => _feedControl; 
+        set => SetField(ref _feedControl, value);
+    }
 
     public HomePage()
     {
@@ -37,8 +51,28 @@ public sealed partial class HomePage : Page
 
         this.InitializeComponent();
 
+        App.Services.GetRequiredService<IDialogService>().ShowErrorRequested += OnShowErrorRequested;
         WeakReferenceMessenger.Default.Register<FeedSubscriptionEditRequestMessage>(this, OnFeedSubscriptionEditRequestMessage);
         WeakReferenceMessenger.Default.Register<FeedSubscriptionDeleteRequestMessage>(this, OnFeedSubscriptionDeleteRequestMessage);
+        WeakReferenceMessenger.Default.Register<FeedSelectedMessage>(this, OnFeedSelectedMessage);
+    }
+
+    private async void OnShowErrorRequested(object? sender, ShowErrorRequestedEventArgs e)
+    {
+        ContentDialog d = new() { XamlRoot = XamlRoot, Title = e.Title, Content = e.Message, PrimaryButtonText = "OK" };
+        await d.ShowAsync();
+    }
+
+    private async void OnFeedSelectedMessage(object recipient, FeedSelectedMessage message)
+    {
+        FeedControl = new FeedControl();
+
+        if (message.Model is null)
+        {
+            return;
+        }
+
+        await FeedControl.InitAsync(message.Model);
     }
 
     private async void OnFeedSubscriptionEditRequestMessage(object recipient, FeedSubscriptionEditRequestMessage message)
@@ -58,5 +92,20 @@ public sealed partial class HomePage : Page
     private async Task CreateNewSubscription()
     {
         await new FeedSubscriptionCreateDialog(XamlRoot).ShowAsync();
+    }
+
+    public event PropertyChangedEventHandler? PropertyChanged;
+
+    private void OnPropertyChanged([CallerMemberName] string? propertyName = null)
+    {
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+    }
+
+    private bool SetField<T>(ref T field, T value, [CallerMemberName] string? propertyName = null)
+    {
+        if (EqualityComparer<T>.Default.Equals(field, value)) return false;
+        field = value;
+        OnPropertyChanged(propertyName);
+        return true;
     }
 }
