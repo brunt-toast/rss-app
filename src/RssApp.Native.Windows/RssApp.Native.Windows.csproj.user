@@ -5,6 +5,9 @@
     <None Update="App.xaml">
       <SubType>Designer</SubType>
     </None>
+    <Page Update="Controls\Feed\FeedControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Views\Dialogs\FeedSubscription\FeedSubscriptionCreateDialog.xaml">
       <SubType>Designer</SubType>
     </Page>

@@ -7,14 +7,17 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:feedSubscription="using:RssApp.Native.Windows.Controls.FeedSubscription"
+    xmlns:feed="using:RssApp.Native.Windows.Controls.Feed"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-    <Grid>
-        <StackPanel>
+    <Grid ColumnDefinitions="auto,*">
+        <StackPanel Grid.Column="0">
             <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}" Text="Subscriptions" />
             <feedSubscription:FeedSubscriptionListControl />
             <Button Content="New" Command="{x:Bind CreateNewSubscriptionCommand}" />
         </StackPanel>
+
+        <ContentControl Grid.Column="1" x:Name="FeedControlContainer" Content="{x:Bind FeedControl, Mode=OneWay}" />
     </Grid>
 </Page>

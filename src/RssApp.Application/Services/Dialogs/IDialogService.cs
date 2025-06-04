@@ -3,7 +3,21 @@
 public interface IDialogService
 {
     public Task<bool> RequestConfirmationAsync(string title, string message);
+    public Task ShowErrorAsync(string title, string message);
     public event EventHandler<ConfirmationRequestedEventArgs>? ConfirmationRequested;
+    public event EventHandler<ShowErrorRequestedEventArgs>? ShowErrorRequested;
+}
+
+public class ShowErrorRequestedEventArgs : EventArgs
+{
+    public ShowErrorRequestedEventArgs(string title, string message)
+    {
+        Title = title;
+        Message = message;
+    }
+
+    public string Title { get; }
+    public string Message { get; }
 }
 
 public class ConfirmationRequestedEventArgs : EventArgs

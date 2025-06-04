@@ -10,11 +10,11 @@
     mc:Ignorable="d"
     x:Name="Root">
 
-    <ListView ItemsSource="{x:Bind ViewModel.Feeds}" SelectionMode="None">
+    <ListView ItemsSource="{x:Bind ViewModel.Feeds}" SelectedItem="{x:Bind ViewModel.SelectedFeed, Mode=TwoWay}">
         <ListView.ItemTemplate>
             <DataTemplate x:DataType="feedSubscription:FeedSubscriptionModel">
                 <Grid ColumnDefinitions="*,auto,auto">
-                    <HyperlinkButton Grid.Column="0" Content="{x:Bind FeedName}" />
+                    <TextBlock Grid.Column="0" Text="{x:Bind FeedName}" />
                     <Button Grid.Column="1" Command="{x:Bind RequestEditCommand}">
                         <FontIcon Glyph="&#xE70F;" />
                     </Button>

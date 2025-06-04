@@ -2,6 +2,9 @@
 using Microsoft.UI.Xaml;
 using Microsoft.Extensions.DependencyInjection;
 using RssApp.Application.Services.ContextProviders.FeedSubscriptions;
+using UnhandledExceptionEventArgs = Microsoft.UI.Xaml.UnhandledExceptionEventArgs;
+using System.Runtime.InteropServices;
+using RssApp.Application.Services.Dialogs;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -20,6 +23,7 @@ public partial class App : Microsoft.UI.Xaml.Application
     /// </summary>
     public App()
     {
+        UnhandledException += OnUnhandledException;
         this.InitializeComponent();
     }
 
@@ -43,8 +47,13 @@ public partial class App : Microsoft.UI.Xaml.Application
             string connString = "Data Source=" + filePath; 
             return new FeedSubscriptionContextProvider(connString);
         });
+        services.AddSingleton<IDialogService, DelegatedDialogService>();
         Services = services.BuildServiceProvider();
     }
 
     private Window? _mWindow;
+
+    private void OnUnhandledException(object sender, UnhandledExceptionEventArgs e)
+    {
+    }
 }

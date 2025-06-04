@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.DependencyInjection;
 using RssApp.Application.Extensions.System.Collections.ObjectModel;
+using RssApp.Application.Messages.Feed;
 using RssApp.Application.Messages.FeedSubscription;
 using RssApp.Application.Models.FeedSubscription;
 using RssApp.Application.Services.ContextProviders.FeedSubscriptions;
@@ -14,6 +15,16 @@ public partial class FeedSubscriptionListViewModel : ObservableObject
     private readonly IFeedSubscriptionContextProvider _dbContextProvider;
 
     public ObservableCollection<FeedSubscriptionModel> Feeds { get; } = [];
+
+    public FeedSubscriptionModel? SelectedFeed
+    {
+        get;
+        set
+        {
+            SetProperty(ref field, value);
+            WeakReferenceMessenger.Default.Send(new FeedSelectedMessage(field));
+        }
+    }
 
     public FeedSubscriptionListViewModel(IServiceProvider services)
     {
