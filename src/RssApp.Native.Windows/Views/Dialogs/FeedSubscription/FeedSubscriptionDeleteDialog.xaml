@@ -8,8 +8,6 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     
-    Title="Are you sure you want to delete this subscription?"
-    PrimaryButtonText="Delete"
-    PrimaryButtonCommand="{x:Bind ViewModel.DeleteCommand}"
-    SecondaryButtonText="Cancel">
+    x:Uid="/FeedSubscriptionDeleteDialog/Root"
+    PrimaryButtonCommand="{x:Bind ViewModel.DeleteCommand}">
 </ContentDialog>

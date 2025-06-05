@@ -9,19 +9,17 @@
     xmlns:feedSubscription="using:RssApp.Application.Models.FeedSubscription"
     mc:Ignorable="d"
 
-    Title="Create new filter"
-    PrimaryButtonText="Save"
-    PrimaryButtonCommand="{x:Bind ViewModel.SaveCommand}"
-    SecondaryButtonText="Cancel">
+    x:Uid="/FeedFilterCreateDialog/Root"
+    PrimaryButtonCommand="{x:Bind ViewModel.SaveCommand}">
 
     <StackPanel>
-        <TextBox Header="Expression" Text="{x:Bind ViewModel.FilterRegex, Mode=TwoWay}" PlaceholderText="^(AI)" />
-        <CheckBox Content="Is Whitelist" IsChecked="{x:Bind ViewModel.IsWhitelist, Mode=TwoWay}" />
+        <TextBox x:Uid="/FeedFilterCreateDialog/ExpressionHeader" Text="{x:Bind ViewModel.FilterRegex, Mode=TwoWay}" />
+        <CheckBox x:Uid="/FeedFilterCreateDialog/IsWhitelistCheckbox" IsChecked="{x:Bind ViewModel.IsWhitelist, Mode=TwoWay}" />
 
-        <TextBlock Text="Applies to" />
-        <CheckBox Content="Title" IsChecked="{x:Bind ViewModel.AppliesToTitle, Mode=TwoWay}" />
-        <CheckBox Content="Body" IsChecked="{x:Bind ViewModel.AppliesToBody, Mode=TwoWay}" />
-        <CheckBox Content="Uri" IsChecked="{x:Bind ViewModel.AppliesToUri, Mode=TwoWay}" />
+        <TextBlock x:Uid="/FeedFilterCreateDialog/AppliesToHeader" />
+        <CheckBox x:Uid="/FeedFilterCreateDialog/AppliesToTitleCheckbox" IsChecked="{x:Bind ViewModel.AppliesToTitle, Mode=TwoWay}" />
+        <CheckBox x:Uid="/FeedFilterCreateDialog/AppliesToBodyCheckbox" IsChecked="{x:Bind ViewModel.AppliesToBody, Mode=TwoWay}" />
+        <CheckBox x:Uid="/FeedFilterCreateDialog/AppliesToUriCheckbox" IsChecked="{x:Bind ViewModel.AppliesToUri, Mode=TwoWay}" />
 
         <ListView ItemsSource="{x:Bind ViewModel.AvailableFeedSubscriptions}" SelectionChanged="Selector_OnSelectionChanged" SelectionMode="Multiple">
             <ListView.ItemTemplate>

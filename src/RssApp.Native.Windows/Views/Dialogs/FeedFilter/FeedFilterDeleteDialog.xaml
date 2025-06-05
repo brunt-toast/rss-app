@@ -8,9 +8,6 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
 
-    Title="Delete filter?"
-    PrimaryButtonText="Delete"
-    PrimaryButtonCommand="{x:Bind ViewModel.DeleteCommand}"
-    SecondaryButtonText="Cancel"
-    >
+    x:Uid="/FeedFilterDeleteDialog/Root"
+    PrimaryButtonCommand="{x:Bind ViewModel.DeleteCommand}">
 </ContentDialog>

@@ -17,9 +17,9 @@
                     Margin="5" Padding="10"
                     BorderBrush="LightGray" BorderThickness="1" CornerRadius="5" Background="White">
             <StackPanel >
-                <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}" Text="Subscriptions" />
+                <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}" x:Uid="/HomePage/SubscriptionsHeader" />
                 <feedSubscription:FeedSubscriptionListControl />
-                <Button Content="New" Command="{x:Bind CreateNewSubscriptionCommand}" />
+                <Button x:Uid="/HomePage/NewFeedSubscriptionButton" Command="{x:Bind CreateNewSubscriptionCommand}" />
             </StackPanel>
         </Border>
 
@@ -27,9 +27,9 @@
                     Margin="5" Padding="10"
                     BorderBrush="LightGray" BorderThickness="1" CornerRadius="5" Background="White">
             <StackPanel Grid.Row="1" Grid.Column="0">
-                <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}" Text="Filters" />
+                <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}" x:Uid="/HomePage/FiltersHeader" />
                 <feedFilter:FeedFilterListControl />
-                <Button Content="New" Command="{x:Bind CreateNewFilterCommand}" />
+                <Button x:Uid="/HomePage/NewFeedFilterButton" Command="{x:Bind CreateNewFilterCommand}" />
             </StackPanel>
         </Border>
 

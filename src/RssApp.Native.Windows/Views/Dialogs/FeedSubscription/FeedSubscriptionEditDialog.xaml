@@ -8,13 +8,11 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     
-    Title="Edit subscription"
-    PrimaryButtonText="Save"
-    PrimaryButtonCommand="{x:Bind ViewModel.SaveCommand}"
-    SecondaryButtonText="Cancel">
+    x:Uid="/FeedSubscriptionEditDialog/Root"
+    PrimaryButtonCommand="{x:Bind ViewModel.SaveCommand}">
 
     <Grid RowDefinitions="auto,auto">
-        <TextBox Grid.Row="0" Header="Name" Text="{x:Bind ViewModel.FeedName, Mode=TwoWay}" PlaceholderText="Xkcd" />
-        <TextBox Grid.Row="1" Header="Uri" Text="{x:Bind ViewModel.FeedUri, Mode=TwoWay}" PlaceholderText="https://xkcd.com/rss.xml" />
+        <TextBox Grid.Row="0" x:Uid="/FeedSubscriptionEditDialog/NameField" Text="{x:Bind ViewModel.FeedName, Mode=TwoWay}"  />
+        <TextBox Grid.Row="1" x:Uid="/FeedSubscriptionEditDialog/UriField" Text="{x:Bind ViewModel.FeedUri, Mode=TwoWay}" />
     </Grid>
 </ContentDialog>

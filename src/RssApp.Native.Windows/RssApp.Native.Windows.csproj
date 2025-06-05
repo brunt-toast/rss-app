@@ -89,6 +89,7 @@
     <PublishReadyToRun Condition="'$(Configuration)' != 'Debug'">True</PublishReadyToRun>
     <PublishTrimmed Condition="'$(Configuration)' == 'Debug'">False</PublishTrimmed>
     <PublishTrimmed Condition="'$(Configuration)' != 'Debug'">True</PublishTrimmed>
+    <DefaultLanguage>en-GB</DefaultLanguage>
   </PropertyGroup>
   <ItemGroup>
     <Page Update="Views\Pages\HomePage.xaml">

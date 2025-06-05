@@ -18,12 +18,12 @@
                         <Grid RowDefinitions="auto,auto,auto,auto" Margin="0,20,0,0">
                             <HyperlinkButton Grid.Row="0" FontSize="20" NavigateUri="{x:Bind Link}" Content="{x:Bind Title}" />
                             <TextBlock Grid.Row="1">
-                                <Run Text="By"/>
+                                <Run x:Uid="/FeedControl/ByRun" />
                                 <Run Text="{x:Bind Author, TargetNullValue='Unknown', FallbackValue='Unknown'}" />
                                 <Run Text="{x:Bind PublishingDate, Converter={StaticResource RelativeDateTimeConverter}}" />
                             </TextBlock>
                             <TextBlock Grid.Row="2">
-                                <Run Text="Tags:" />
+                                <Run x:Uid="/FeedControl/TagsRun" />
                                 <Run Text="{x:Bind Categories, Converter={StaticResource JoinStringsWithCommasConverter}}" />
                             </TextBlock>
                         </Grid>
