@@ -26,6 +26,7 @@ using RssApp.Application.Messages.FeedSubscription;
 using RssApp.Application.Services.Dialogs;
 using RssApp.Application.ViewModels.FeedSubscription;
 using RssApp.Native.Windows.Controls.Feed;
+using RssApp.Native.Windows.Extensions.Microsoft.UI.Xaml.Controls;
 using RssApp.Native.Windows.Views.Dialogs.FeedFilter;
 using RssApp.Native.Windows.Views.Dialogs.FeedSubscription;
 
@@ -73,7 +74,7 @@ public sealed partial class HomePage : Page, INotifyPropertyChanged
     private async void OnShowErrorRequested(object? sender, ShowErrorRequestedEventArgs e)
     {
         ContentDialog d = new() { XamlRoot = XamlRoot, Title = e.Title, Content = e.Message, PrimaryButtonText = "OK" };
-        await d.ShowAsync();
+        await d.QueueShowAsync();
     }
 
     private async void OnFeedSelectedMessage(object recipient, FeedSelectedMessage message)

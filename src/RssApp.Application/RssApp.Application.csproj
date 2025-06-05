@@ -6,6 +6,7 @@
     <Nullable>enable</Nullable>
     <PrivateAssets>all</PrivateAssets>
     <LangVersion>preview</LangVersion>
+    <WarningsAsErrors>CA2017</WarningsAsErrors>
   </PropertyGroup>
 
   <ItemGroup>
@@ -20,7 +21,6 @@
 
   <ItemGroup>
     <Folder Include="Exceptions\" />
-    <Folder Include="Validations\" />
   </ItemGroup>
 
   <ItemGroup>

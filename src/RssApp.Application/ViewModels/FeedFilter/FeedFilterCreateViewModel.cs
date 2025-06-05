@@ -4,18 +4,24 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using RssApp.Application.Extensions.System.Collections.ObjectModel;
 using RssApp.Application.Messages.FeedFilter;
 using RssApp.Application.Messages.FeedSubscription;
+using RssApp.Application.Models.FeedFilter;
 using RssApp.Application.Models.FeedSubscription;
 using RssApp.Application.Services.ContextProviders.FeedSubscriptions;
+using RssApp.Application.Services.Dialogs;
+using RssApp.Application.Validations.FeedFilter;
 using RssApp.Core.Enums.Flags;
 using RssApp.Core.Junctions;
 
 namespace RssApp.Application.ViewModels.FeedFilter;
 
-public partial class FeedFilterCreateViewModel : ObservableObject
+public partial class FeedFilterCreateViewModel : ViewModelBase
 {
+    private readonly ILogger _logger;
+    private readonly IDialogService _dialogService;
     private readonly IFeedSubscriptionContextProvider _dbContextProvider;
 
     public ICommand SaveCommand { get; }
@@ -28,8 +34,10 @@ public partial class FeedFilterCreateViewModel : ObservableObject
     [ObservableProperty] public partial bool AppliesToTitle { get; set; }
     [ObservableProperty] public partial bool AppliesToBody { get; set; }
 
-    public FeedFilterCreateViewModel(IServiceProvider services)
+    public FeedFilterCreateViewModel(IServiceProvider services) : base(services)
     {
+        _logger = services.GetRequiredService<ILoggerFactory>().CreateLogger<FeedFilterCreateViewModel>();
+        _dialogService = services.GetRequiredService<IDialogService>();
         _dbContextProvider = services.GetRequiredService<IFeedSubscriptionContextProvider>();
         SaveCommand = new RelayCommand(Save);
     }
@@ -62,6 +70,14 @@ public partial class FeedFilterCreateViewModel : ObservableObject
             FeedSubscriptionId = x.ToPoco().FeedSubscriptionId,
             FeedFilterId = feedFilter.FeedFilterId
         });
+
+        var validation = await FeedFilterModelValidator.ValidateAsync(Services, new FeedFilterModel(feedFilter));
+        if (!validation.Success)
+        {
+            _logger.LogError("Declining to create a new feed filter due to failed validation: {message}", validation.Message);
+            await _dialogService.ShowErrorAsync("Validation failed", validation.Message);
+            return;
+        }
 
         await using var ctx = _dbContextProvider.New();
         await ctx.FeedFilters.AddAsync(feedFilter);
