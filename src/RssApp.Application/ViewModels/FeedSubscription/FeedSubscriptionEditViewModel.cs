@@ -4,6 +4,7 @@ using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using RssApp.Application.Messages.FeedSubscription;
 using RssApp.Application.Models.FeedSubscription;
 using RssApp.Application.Services.ContextProviders.FeedSubscriptions;
@@ -12,6 +13,7 @@ namespace RssApp.Application.ViewModels.FeedSubscription;
 
 public partial class FeedSubscriptionEditViewModel : ObservableObject
 {
+    private readonly ILogger _logger;
     private readonly IFeedSubscriptionContextProvider _dbContextProvider;
 
     private Guid _feedSubscriptionId;
@@ -24,6 +26,7 @@ public partial class FeedSubscriptionEditViewModel : ObservableObject
     public FeedSubscriptionEditViewModel(IServiceProvider services)
     {
         _dbContextProvider = services.GetRequiredService<IFeedSubscriptionContextProvider>();
+        _logger = services.GetRequiredService<ILoggerFactory>().CreateLogger<FeedSubscriptionEditViewModel>();
         SaveCommand = new RelayCommand(Save);
     }
 
@@ -51,6 +54,7 @@ public partial class FeedSubscriptionEditViewModel : ObservableObject
 
         if (record is null)
         {
+            _logger.LogError("Failed to update feed subscription: Could not find a feed subscription with ID {id} to update", _feedSubscriptionId);
             throw new Exception($"Could not find a {nameof(Core.FeedSubscription)} record " +
                                 $"with {nameof(Core.FeedSubscription.FeedSubscriptionId)} {_feedSubscriptionId}.");
         }

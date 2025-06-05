@@ -1,9 +1,11 @@
 ﻿using System.Collections.ObjectModel;
+using System.Net.Http.Headers;
 using System.Text.RegularExpressions;
 using CodeHollow.FeedReader;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using RssApp.Application.Extensions.System.Collections.ObjectModel;
 using RssApp.Application.Models.FeedFilter;
 using RssApp.Application.Models.FeedSubscription;
@@ -17,6 +19,7 @@ public partial class FeedViewModel : ObservableObject
 {
     private readonly IDialogService _dialogService;
     private readonly IFeedSubscriptionContextProvider _dbContextProvider;
+    private readonly ILogger _logger;
 
     [ObservableProperty] public partial string FeedName { get; private set; }
 
@@ -24,6 +27,7 @@ public partial class FeedViewModel : ObservableObject
     {
         _dialogService = services.GetRequiredService<IDialogService>();
         _dbContextProvider = services.GetRequiredService<IFeedSubscriptionContextProvider>();
+        _logger = services.GetRequiredService<ILoggerFactory>().CreateLogger<FeedViewModel>();
     }
 
     public ObservableCollection<FeedItem> Items { get; } = [];
@@ -49,8 +53,10 @@ public partial class FeedViewModel : ObservableObject
                 feed = await FeedReader.ReadAsync(model.FeedUri);
                 break;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                _logger.LogError(ex, "Unexpected exception while reading a feed at {feedUri}, attempt {retry} of {maxRetries}",
+                    model.FeedUri, retries, maxRetries);
                 retries++;
             }
         }
@@ -62,7 +68,7 @@ public partial class FeedViewModel : ObservableObject
         }
         catch (Exception ex)
         {
-
+            _logger.LogError(ex, "Unexpected exception while filtering feed {feedId}", model.ToPoco().FeedSubscriptionId);
         }
     }
 

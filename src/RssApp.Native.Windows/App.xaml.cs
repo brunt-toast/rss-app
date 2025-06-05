@@ -4,7 +4,11 @@ using Microsoft.Extensions.DependencyInjection;
 using RssApp.Application.Services.ContextProviders.FeedSubscriptions;
 using UnhandledExceptionEventArgs = Microsoft.UI.Xaml.UnhandledExceptionEventArgs;
 using System.Runtime.InteropServices;
+using Microsoft.Extensions.Logging;
 using RssApp.Application.Services.Dialogs;
+using RssApp.Native.Windows.Utils;
+using Serilog;
+using ILogger = Microsoft.Extensions.Logging.ILogger;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -48,12 +52,22 @@ public partial class App : Microsoft.UI.Xaml.Application
             return new FeedSubscriptionContextProvider(connString);
         });
         services.AddSingleton<IDialogService, DelegatedDialogService>();
+
+        SerilogProvider.Init();
+        services.AddLogging(c =>
+        {
+            c.ClearProviders();
+            c.AddSerilog();
+        });
+
         Services = services.BuildServiceProvider();
     }
 
     private Window? _mWindow;
 
-    private void OnUnhandledException(object sender, UnhandledExceptionEventArgs e)
+    private static void OnUnhandledException(object sender, UnhandledExceptionEventArgs e)
     {
+        ILogger logger = Services.GetRequiredService<ILoggerFactory>().CreateLogger<App>();
+        logger.LogCritical(e.Exception, "{message}", e.Message);
     }
 }
