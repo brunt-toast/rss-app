@@ -12,11 +12,11 @@
     <Grid RowDefinitions="auto,*">
         <TextBlock Grid.Row="0" Text="{x:Bind ViewModel.FeedName}" Style="{ThemeResource SubtitleTextBlockStyle}" />
         <ScrollView Grid.Row="1">
-            <ListView ItemsSource="{x:Bind ViewModel.Items}" SelectionMode="None">
+            <ListView ItemsSource="{x:Bind ViewModel.Items}" SelectionChanged="Selector_OnSelectionChanged">
                 <ListView.ItemTemplate>
                     <DataTemplate x:DataType="feedItem:FeedItemModel">
                         <Grid RowDefinitions="auto,auto,auto,auto" Margin="0,20,0,0">
-                            <HyperlinkButton Grid.Row="0" FontSize="20" Command="{x:Bind OpenInBrowserCommand}" Content="{x:Bind Title}" />
+                            <TextBlock Grid.Row="0" FontSize="20" Text="{x:Bind Title}" Style="{ThemeResource SubtitleTextBlockStyle}" />
                             <TextBlock Grid.Row="1">
                                 <Run x:Uid="/FeedControl/ByRun" />
                                 <Run Text="{x:Bind Author, TargetNullValue='Unknown', FallbackValue='Unknown'}" />

@@ -5,12 +5,25 @@
 <head>
     <meta charset="utf-8" />
     <title>@Model.Title</title>
+    <style>
+        article {
+            position: absolute;
+            left: 50%;
+            -ms-transform: translateX(-50%);
+            -webkit-transform: translateX(-50%);
+            transform: translateX(-50%);
+            top: 10vh;
+            max-width: 180ch;
+        }
+    </style>
 </head>
 <body>
-    <h1>@Model.Title</h1>
-    <p><strong>Link:</strong> <a href="@Model.Link">@Model.Link</a></p>
-    <p><strong>Publish Date:</strong> @Model.PublishingDateString</p>
-    <div>@Model.Description</div>
+    <article>
+        <h1>@Model.Title</h1>
+        <p>@Model.PublishingDate?.ToString("f") | <a href="@Model.Link">Show without reader</a></p>
+        <hr />
+        <div>@((MarkupString)Model.Content)</div>
+    </article>
 </body>
 </html>
 

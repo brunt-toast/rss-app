@@ -1,6 +1,8 @@
 ﻿using System.Diagnostics;
 using System.Windows.Input;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
+using RssApp.Application.Messages.FeedItem;
 using RssApp.Lib.Rendering;
 
 namespace RssApp.Application.Models.FeedItem;
@@ -16,19 +18,24 @@ public class FeedItemModel
     public string Link => _feedItem.Link;
     public string Content => _feedItem.Content;
 
-    public ICommand OpenInBrowserCommand { get; }
+    public ICommand SelectCommand { get; }
 
     public FeedItemModel(CodeHollow.FeedReader.FeedItem feedItem)
     {
         _feedItem = feedItem;
-        OpenInBrowserCommand = new AsyncRelayCommand(OpenFeedAsync);
+        SelectCommand = new RelayCommand(Select);
     }
 
-    private async Task OpenFeedAsync()
+    private void Select()
     {
+        WeakReferenceMessenger.Default.Send(new FeedItemSelectedMessage(this));
+    }
+
+    public async Task<string> RenderToFileAsync(string? filePath = null)
+    {
+        filePath ??= Path.Join(Path.GetTempPath(), $"{Guid.NewGuid()}.html");
         string html = await RazorRenderer.RenderFeedItemAsync(_feedItem);
-        string filePath = Path.Join(Path.GetTempPath(), $"{Guid.NewGuid()}.html");
         await File.WriteAllTextAsync(filePath, html);
-        Process.Start(new ProcessStartInfo("file://" + filePath.Replace('\\', '/')) { UseShellExecute = true });
+        return filePath;
     }
 }

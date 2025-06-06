@@ -16,16 +16,19 @@ using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using CodeHollow.FeedReader;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.DependencyInjection;
 using RssApp.Application.Messages.Feed;
 using RssApp.Application.Messages.FeedFilter;
+using RssApp.Application.Messages.FeedItem;
 using RssApp.Application.Messages.FeedSubscription;
 using RssApp.Application.Services.Dialogs;
 using RssApp.Application.ViewModels.FeedSubscription;
 using RssApp.Native.Windows.Controls.Feed;
+using RssApp.Native.Windows.Controls.FeedItem;
 using RssApp.Native.Windows.Extensions.Microsoft.UI.Xaml.Controls;
 using RssApp.Native.Windows.Views.Dialogs.FeedFilter;
 using RssApp.Native.Windows.Views.Dialogs.FeedSubscription;
@@ -42,12 +45,17 @@ public sealed partial class HomePage : Page, INotifyPropertyChanged
     public ICommand CreateNewSubscriptionCommand { get; }
     public ICommand CreateNewFilterCommand { get; }
 
-    private FeedControl _feedControl = new();
     public FeedControl FeedControl
     {
-        get => _feedControl; 
-        set => SetField(ref _feedControl, value);
-    }
+        get;
+        set => SetField(ref field, value);
+    } = new();
+
+    public FeedItemControl FeedItemControl
+    {
+        get;
+        set => SetField(ref field, value);
+    } = new();
 
     public HomePage()
     {
@@ -60,8 +68,15 @@ public sealed partial class HomePage : Page, INotifyPropertyChanged
         WeakReferenceMessenger.Default.Register<FeedSubscriptionEditRequestMessage>(this, OnFeedSubscriptionEditRequestMessage);
         WeakReferenceMessenger.Default.Register<FeedSubscriptionDeleteRequestMessage>(this, OnFeedSubscriptionDeleteRequestMessage);
         WeakReferenceMessenger.Default.Register<FeedSelectedMessage>(this, OnFeedSelectedMessage);
+        WeakReferenceMessenger.Default.Register<FeedItemSelectedMessage>(this, OnFeedItemSelectedMessage);
         WeakReferenceMessenger.Default.Register<FeedFilterDeleteRequestMessage>(this, OnFeedFilterDeleteRequestMessage);
 
+    }
+
+    private async void OnFeedItemSelectedMessage(object recipient, FeedItemSelectedMessage message)
+    {
+        FeedItemControl = new FeedItemControl();
+        await FeedItemControl.InitAsync(message.Model);
     }
 
     private async void OnFeedFilterDeleteRequestMessage(object recipient, FeedFilterDeleteRequestMessage message)
@@ -80,7 +95,6 @@ public sealed partial class HomePage : Page, INotifyPropertyChanged
     private async void OnFeedSelectedMessage(object recipient, FeedSelectedMessage message)
     {
         FeedControl = new FeedControl();
-        FeedControlContainer.Content = FeedControl;
 
         if (message.Model is null)
         {
