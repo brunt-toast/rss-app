@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Net.Http.Headers;
 using System.Text.RegularExpressions;
 using CodeHollow.FeedReader;
@@ -8,10 +9,12 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using RssApp.Application.Extensions.System.Collections.ObjectModel;
 using RssApp.Application.Models.FeedFilter;
+using RssApp.Application.Models.FeedItem;
 using RssApp.Application.Models.FeedSubscription;
 using RssApp.Application.Services.ContextProviders.FeedSubscriptions;
 using RssApp.Application.Services.Dialogs;
 using RssApp.Core.Enums.Flags;
+using RssApp.Lib.Rendering;
 
 namespace RssApp.Application.ViewModels.Feed;
 
@@ -21,7 +24,7 @@ public partial class FeedViewModel : ObservableObject
     private readonly IFeedSubscriptionContextProvider _dbContextProvider;
     private readonly ILogger _logger;
 
-    [ObservableProperty] public partial string FeedName { get; private set; }
+    [ObservableProperty] public partial string FeedName { get; private set; } = "";
 
     public FeedViewModel(IServiceProvider services)
     {
@@ -30,7 +33,7 @@ public partial class FeedViewModel : ObservableObject
         _logger = services.GetRequiredService<ILoggerFactory>().CreateLogger<FeedViewModel>();
     }
 
-    public ObservableCollection<FeedItem> Items { get; } = [];
+    public ObservableCollection<FeedItemModel> Items { get; } = [];
 
     public async Task InitAsync(FeedSubscriptionModel model)
     {
@@ -61,7 +64,7 @@ public partial class FeedViewModel : ObservableObject
             }
         }
 
-        await Items.ReplaceRangeAsync(feed.Items);
+        await Items.ReplaceRangeAsync(feed.Items.Select(x => new FeedItemModel(x)));
         try
         {
             await FilterItems(model);
@@ -85,7 +88,7 @@ public partial class FeedViewModel : ObservableObject
             .Select(x => new FeedFilterModel(x))
             .ToList();
 
-        foreach (FeedItem item in Items)
+        foreach (FeedItemModel item in Items)
         {
             if (ShouldBeDiscarded(item, relevantFilters))
             {
@@ -94,12 +97,12 @@ public partial class FeedViewModel : ObservableObject
         }
     }
 
-    private bool ShouldBeDiscarded(FeedItem item, IEnumerable<FeedFilterModel> filters)
+    private bool ShouldBeDiscarded(FeedItemModel item, IEnumerable<FeedFilterModel> filters)
     {
         return filters.Any(x => ShouldBeDiscarded(item, x));
     }
 
-    private bool ShouldBeDiscarded(FeedItem item, FeedFilterModel filter)
+    private bool ShouldBeDiscarded(FeedItemModel item, FeedFilterModel filter)
     {
         Regex pattern = new(filter.FilterRegex);
 
