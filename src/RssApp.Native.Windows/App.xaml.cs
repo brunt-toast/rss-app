@@ -6,6 +6,7 @@ using UnhandledExceptionEventArgs = Microsoft.UI.Xaml.UnhandledExceptionEventArg
 using System.Runtime.InteropServices;
 using Microsoft.Extensions.Logging;
 using RssApp.Application.Services.Dialogs;
+using RssApp.Application.Services.Navigation;
 using RssApp.Native.Windows.Utils;
 using Serilog;
 using ILogger = Microsoft.Extensions.Logging.ILogger;
@@ -52,6 +53,7 @@ public partial class App : Microsoft.UI.Xaml.Application
             return new FeedSubscriptionContextProvider(connString);
         });
         services.AddSingleton<IDialogService, DelegatedDialogService>();
+        services.AddSingleton<INavigationService, NavigationService>();
 
         SerilogProvider.Init();
         services.AddLogging(c =>

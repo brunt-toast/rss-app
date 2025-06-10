@@ -117,19 +117,7 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="FiltersHeader.Text" xml:space="preserve">
-    <value>Filters</value>
-  </data>
-  <data name="HomeNavigationItem.Content" xml:space="preserve">
-    <value>Home</value>
-  </data>
-  <data name="NewFeedFilterButton.Content" xml:space="preserve">
-    <value>New</value>
-  </data>
-  <data name="NewFeedSubscriptionButton.Content" xml:space="preserve">
-    <value>New</value>
-  </data>
-  <data name="SubscriptionsHeader.Text" xml:space="preserve">
-    <value>Subscriptions</value>
+  <data name="NotImplementedTextBlock.Text" xml:space="preserve">
+    <value>Pas fait</value>
   </data>
 </root>

@@ -120,6 +120,9 @@
   <data name="FiltersHeader.Text" xml:space="preserve">
     <value>Filters</value>
   </data>
+  <data name="HomeNavigationItem.Content" xml:space="preserve">
+    <value>Chez moi</value>
+  </data>
   <data name="NewFeedFilterButton.Content" xml:space="preserve">
     <value>Nouveau</value>
   </data>

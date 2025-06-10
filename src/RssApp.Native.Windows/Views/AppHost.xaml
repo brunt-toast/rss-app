@@ -10,5 +10,16 @@
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-    <pages:HomePage />
+    <NavigationView PaneDisplayMode="LeftCompact" IsBackButtonVisible="Collapsed"
+                    x:Name="MainNavView" ItemInvoked="NavigationView_OnItemInvoked">
+
+        <NavigationView.MenuItems>
+            <NavigationViewItem Icon="Home" x:Uid="/HomePage/HomeNavigationItem" x:Name="HomeNavigationItem" />
+        </NavigationView.MenuItems>
+
+        <Frame x:Name="ContentFrame">
+            <pages:HomePage />
+        </Frame>
+
+    </NavigationView>
 </Page>

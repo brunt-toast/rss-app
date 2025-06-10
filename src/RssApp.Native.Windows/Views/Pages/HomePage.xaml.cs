@@ -26,6 +26,7 @@ using RssApp.Application.Messages.FeedFilter;
 using RssApp.Application.Messages.FeedItem;
 using RssApp.Application.Messages.FeedSubscription;
 using RssApp.Application.Services.Dialogs;
+using RssApp.Application.Services.Navigation;
 using RssApp.Application.ViewModels.FeedSubscription;
 using RssApp.Native.Windows.Controls.Feed;
 using RssApp.Native.Windows.Controls.FeedItem;
