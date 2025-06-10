@@ -25,6 +25,5 @@ public sealed partial class FeedItemControl : UserControl
     {
         await WebView.EnsureCoreWebView2Async();
         await ViewModel.InitAsync(feedItem);
-        ViewModel.OpenInBrowserCommand.Execute(null);
     }
 }
