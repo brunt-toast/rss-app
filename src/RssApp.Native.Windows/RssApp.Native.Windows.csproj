@@ -18,6 +18,7 @@
     <None Remove="Controls\FeedItem\FeedItemControl.xaml" />
     <None Remove="Controls\FeedSubscription\FeedSubscriptionListControl.xaml" />
     <None Remove="Controls\Feed\FeedControl.xaml" />
+    <None Remove="Views\AppHost.xaml" />
     <None Remove="Views\Dialogs\FeedFilter\FeedFilterCreateDialog.xaml" />
     <None Remove="Views\Dialogs\FeedFilter\FeedFilterDeleteDialog.xaml" />
     <None Remove="Views\Dialogs\FeedSubscription\FeedSubscriptionCreateDialog.xaml" />
@@ -58,6 +59,11 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\RssApp.Application\RssApp.Application.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Views\AppHost.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="Views\Dialogs\FeedFilter\FeedFilterDeleteDialog.xaml">

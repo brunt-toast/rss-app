@@ -5,6 +5,9 @@
     <None Update="App.xaml">
       <SubType>Designer</SubType>
     </None>
+    <Page Update="Views\AppHost.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Controls\FeedItem\FeedItemControl.xaml">
       <SubType>Designer</SubType>
     </Page>

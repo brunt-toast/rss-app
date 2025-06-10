@@ -64,32 +64,14 @@ public sealed partial class HomePage : Page, INotifyPropertyChanged
 
         this.InitializeComponent();
 
-        App.Services.GetRequiredService<IDialogService>().ShowErrorRequested += OnShowErrorRequested;
-        WeakReferenceMessenger.Default.Register<FeedSubscriptionEditRequestMessage>(this, OnFeedSubscriptionEditRequestMessage);
-        WeakReferenceMessenger.Default.Register<FeedSubscriptionDeleteRequestMessage>(this, OnFeedSubscriptionDeleteRequestMessage);
         WeakReferenceMessenger.Default.Register<FeedSelectedMessage>(this, OnFeedSelectedMessage);
         WeakReferenceMessenger.Default.Register<FeedItemSelectedMessage>(this, OnFeedItemSelectedMessage);
-        WeakReferenceMessenger.Default.Register<FeedFilterDeleteRequestMessage>(this, OnFeedFilterDeleteRequestMessage);
-
     }
 
     private async void OnFeedItemSelectedMessage(object recipient, FeedItemSelectedMessage message)
     {
         FeedItemControl = new FeedItemControl();
         await FeedItemControl.InitAsync(message.Model);
-    }
-
-    private async void OnFeedFilterDeleteRequestMessage(object recipient, FeedFilterDeleteRequestMessage message)
-    {
-        var dialog = new FeedFilterDeleteDialog(XamlRoot);
-        dialog.ViewModel.Init(message.Model);
-        await dialog.ShowAsync();
-    }
-
-    private async void OnShowErrorRequested(object? sender, ShowErrorRequestedEventArgs e)
-    {
-        ContentDialog d = new() { XamlRoot = XamlRoot, Title = e.Title, Content = e.Message, PrimaryButtonText = "OK" };
-        await d.QueueShowAsync();
     }
 
     private async void OnFeedSelectedMessage(object recipient, FeedSelectedMessage message)
@@ -102,20 +84,6 @@ public sealed partial class HomePage : Page, INotifyPropertyChanged
         }
 
         await FeedControl.InitAsync(message.Model);
-    }
-
-    private async void OnFeedSubscriptionEditRequestMessage(object recipient, FeedSubscriptionEditRequestMessage message)
-    {
-        var dialog = new FeedSubscriptionEditDialog(XamlRoot);
-        await dialog.ViewModel.InitAsync(message.Model);
-        await dialog.ShowAsync();
-    }
-
-    private async void OnFeedSubscriptionDeleteRequestMessage(object recipient, FeedSubscriptionDeleteRequestMessage message)
-    {
-        var dialog = new FeedSubscriptionDeleteDialog(XamlRoot);
-        dialog.ViewModel.Init(message.Model);
-        await dialog.ShowAsync();
     }
 
     private async Task CreateNewSubscription()
